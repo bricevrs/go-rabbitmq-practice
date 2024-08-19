@@ -1,0 +1,35 @@
+version: "3.2"
+services:
+
+  rabbitmq:
+    image: "rabbitmq:3.9.11-management-alpine"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+  golang-producer:
+    image: cosmtrek/air:v1.40.4
+    volumes:
+      - ./producer:/go/src/service/api
+    working_dir: /go/src/service/api/
+    ports:
+      - 1331:1331
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+
+  golang-consumer:
+    image: cosmtrek/air:v1.40.4
+    volumes:
+      - ./consumer:/go/src/service/api
+    working_dir: /go/src/service/api/
+    ports:
+      - 1332:1332
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
