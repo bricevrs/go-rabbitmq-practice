@@ -1,7 +1,9 @@
 package main
 
-import producer_quorumQueues "github.com/bricevrs/simple-broker-rmq/producer/quorumQueues"
+import (
+	producer_mirroredQueues "github.com/bricevrs/simple-broker-rmq/producer/mirroredQueues"
+)
 
 func main() {
-	producer_quorumQueues.QuorumQueue1()
+	producer_mirroredQueues.MirroredQueue1()
 }
